@@ -1,0 +1,14 @@
+language: php
+before_script:
+ - phpenv local 5.3
+ - composer install --dev --no-interaction
+ - phpenv local --unset
+ - cd tests/src/FSLock/
+script:
+ - phpunit
+after_script:
+ - cd ../../../
+ - phpenv local 5.3
+ - phpenv local --unset
+php:
+  - 5.3
