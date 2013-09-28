@@ -3,7 +3,7 @@
 namespace tests\src\FSLock;
 
 use Exception;
-use \FSLock\FSlock;
+use \FSLock\FSLock;
 use PHPUnit_Framework_TestCase;
 
 class FSLockTest extends PHPUnit_Framework_TestCase
