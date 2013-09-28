@@ -1,5 +1,5 @@
 {
-    "name": "yriveiro/php-FSLock",
+    "name": "yriveiro/php-fslock",
     "description": "A simple lock implementation using flock.",
     "keywords": ["php", "PHP", "lock file", "lock", "flock"],
     "license": "MIT",
