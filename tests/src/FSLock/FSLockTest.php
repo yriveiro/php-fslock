@@ -54,13 +54,4 @@ class FSLockTest extends PHPUnit_Framework_TestCase
 
 		unset($lock);
 	}
-
-	public function testRemoveAtDestruction()
-	{
-		$lock = new FSLock('unittest');
-		$lockPath = $lock->getPath();
-		unset($lock);
-
-		$this->assertFileNotExists($lockPath);
-	}
 }

@@ -19,7 +19,6 @@ class FSLock {
    	{
 		flock($this->lock, LOCK_UN);
 		fclose($this->lock);
-		@unlink($this->getPath());
 	}
 
 	public function adquire($blocker = false)
