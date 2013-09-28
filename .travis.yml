@@ -1,12 +1,9 @@
-# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
 
-# list any PHP version you want to test against
 php:
-  # using major version aliases
-
-  # aliased to a recent 5.3.x version
   - 5.3
 
-# omitting "script:" will default to phpunit
-script: phpunit tests/src/FSLock/*
+before_script:
+  - composer install --dev --no-interaction
+script:
+  - phpunit tests/src/FSLock/*
