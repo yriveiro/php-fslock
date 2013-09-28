@@ -1,7 +1,6 @@
 <?php
 namespace FSLock;
 
-use \RuntimeException;
 
 class FSLock {
 
@@ -13,7 +12,7 @@ class FSLock {
 	{
 		$this->lockID = $lockID;
 		$this->lockBucket = sys_get_temp_dir();
-		$this->lock = fopen(sprintf("%s/%s.fslock",	$this->lockBucket, $this->lockID), 'c');
+		$this->lock = fopen(sprintf("%s/%s.fslock", $this->lockBucket, $this->lockID), 'c');
 	}
 
 	public function __destruct()
