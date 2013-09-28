@@ -4,4 +4,4 @@ before_script:
 script:
  - phpunit tests/src/FSLock/*
 php:
-  - 5.3
+ - 5.3
