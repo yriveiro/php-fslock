@@ -13,7 +13,7 @@
 >
     <testsuites>
         <testsuite name="FSLock Test Suite">
-            <directory>./tests/src/FSLock/*</directory>
+            <directory>./tests/src/FSLock/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
