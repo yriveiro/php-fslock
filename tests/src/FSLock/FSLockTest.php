@@ -20,12 +20,12 @@ class FSLockTest extends PHPUnit_Framework_TestCase
 		unset($lock);
 	}
 
-	public function testAdquire()
+	public function testAcquire()
 	{
 		$lock = new FSLock('unittest');
 		$lockFile = fopen($lock->getPath(), 'a');
 
-		$this->assertTrue($lock->adquire());
+		$this->assertTrue($lock->acquire());
 		$this->assertFalse(flock($lockFile, LOCK_EX | LOCK_NB));
 		$this->assertTrue($lock->release());
 		$this->assertTrue(flock($lockFile, LOCK_EX | LOCK_NB));
@@ -38,7 +38,7 @@ class FSLockTest extends PHPUnit_Framework_TestCase
 		$lock = new FSLock('unittest');
 		$lockFile = fopen($lock->getPath(), 'a');
 
-		$this->assertTrue($lock->adquire());
+		$this->assertTrue($lock->acquire());
 		$this->assertFalse(flock($lockFile, LOCK_EX | LOCK_NB));
 		$this->assertTrue($lock->release());
 		$this->assertTrue(flock($lockFile, LOCK_EX | LOCK_NB));

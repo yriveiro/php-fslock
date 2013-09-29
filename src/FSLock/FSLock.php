@@ -21,7 +21,7 @@ class FSLock {
 		fclose($this->lock);
 	}
 
-	public function adquire($blocker = false)
+	public function acquire($blocker = false)
 	{
 		return flock($this->lock, ($blocker) ? LOCK_EX : LOCK_EX | LOCK_NB);
 	}
