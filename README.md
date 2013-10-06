@@ -14,9 +14,26 @@ Usage
 use FSLock\FSLock;
 
 $lock = new FSLock('test');
-$lock->acquire();
 
-// Critical code.
+if ($lock->acquire()) {
+    // Critical code.
 
-$lock->release();
+    $lock->release();
+}
 
+
+API
+---
+
+* **acquire**: Acquires the lock, returns _true_ if the operation was successful otherwise the return is _false_.
+* **release**: Releases the lock, returns _true_ if the operation was successful otherwise the return is _false_.
+
+
+Install
+--------------
+
+* Composer:
+
+        "require": {
+            "yriveiro/php-fslock": "0.1"
+        }
