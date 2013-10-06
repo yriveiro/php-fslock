@@ -20,7 +20,7 @@ if ($lock->acquire()) {
 
     $lock->release();
 }
-
+```
 
 API
 ---
