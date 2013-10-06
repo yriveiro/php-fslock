@@ -28,7 +28,7 @@ class FSLock {
 
 	public function release()
    	{
-        return flock($this->lock,LOCK_UN);
+		return flock($this->lock,LOCK_UN);
 	}
 
 	public function id()
