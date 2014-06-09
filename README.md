@@ -3,6 +3,7 @@ FSLock
 
 [![Build Status](https://travis-ci.org/yriveiro/php-fslock.png?branch=master)](https://travis-ci.org/yriveiro/php-fslock)
 [![Coverage Status](https://coveralls.io/repos/yriveiro/php-fslock/badge.png)](https://coveralls.io/r/yriveiro/php-fslock)
+[![Total Downloads](https://poser.pugx.org/yriveiro/php-fslock/downloads.svg)](https://packagist.org/packages/yriveiro/php-fslock)
 
 A simple lock implementation using flock.
 
