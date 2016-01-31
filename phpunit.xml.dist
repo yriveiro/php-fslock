@@ -9,11 +9,10 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="true"
-         bootstrap="vendor/autoload.php"
->
+         bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="FSLock Test Suite">
-            <directory>./tests/src/FSLock/</directory>
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 

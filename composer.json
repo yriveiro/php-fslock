@@ -17,6 +17,13 @@
         "satooshi/php-coveralls": "~1.0"
     },
     "autoload": {
-        "psr-0": { "FSLock": "src/" }
-    }
+        "psr-4": {
+            "FSLock\\": "src/"
+        }
+    },
+    "autoload-dev": {
+           "psr-4": {
+               "FSLock\\Tests\\": "tests/"
+           }
+       }
 }
