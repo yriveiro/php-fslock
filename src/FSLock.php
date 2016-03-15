@@ -1,9 +1,6 @@
 <?php
 namespace FSLock;
 
-use FSLock\FSLockInterface;
-use FSLock\FSLock;
-
 class FSLock implements FSLockInterface
 {
     /**
