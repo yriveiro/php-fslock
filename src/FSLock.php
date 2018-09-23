@@ -1,44 +1,56 @@
 <?php
 namespace FSLock;
 
+use RuntimeException;
+
 class FSLock implements FSLockInterface
 {
     /**
-     * Lock id
+     * Lock id.
      *
      * @var string
      */
     protected $lockID;
 
     /**
-     * The resource linked to current lock
+     * The resource linked to current lock.
      *
-     * @var resource
+     * @var resource | null
      */
     protected $lock;
 
     /**
-     * Temporal folder to store lock files
+     * Temporal folder to store lock files.
      *
      * @var string
      */
     protected $lockBucket;
 
     /**
-     * @param string $lockID The id of the lock with want to work, if not exists
+     * @param string $lockID the id of the lock with want to work, if not exists
      *                       a new resource is created.
+     *
+     * @throws RuntimeException if temporal folder lockBucket is not writable.
      */
-    public function __construct($lockID)
+    public function __construct(string $lockID)
     {
         $this->lockID = $lockID;
         $this->lockBucket = sys_get_temp_dir();
-        $lockFile = sprintf("%s/%s.fslock", $this->lockBucket, $this->lockID);
+        $lockFile = sprintf('%s/%s.fslock', $this->lockBucket, $this->lockID);
 
         $this->lock = fopen($lockFile, 'c');
+
+        if ($this->lock === false) {
+            throw new RuntimeException(
+                sprintf(
+                    'System tmp dir: %s is not writable!', sys_get_temp_dir()
+                )
+            );
+        }
     }
 
     /**
-     * Destructor method. Internally calls FSLock::destroy()
+     * Destructor method. Internally calls FSLock::destroy().
      */
     public function __destruct()
     {
@@ -46,15 +58,32 @@ class FSLock implements FSLockInterface
     }
 
     /**
-     * Acquires the lock
+     * Destroy the lock manually.
      *
-     * @param boolean $blocker If the lock is acquire by other process before,
-     *                         and we call acquire as blocker, this call blocks
-     *                         after previous acquire release the lock.
-     *
-     * @return boolean
+     * @return FSLock
      */
-    public function acquire($blocker = false)
+    public function destroy(): FSLock
+    {
+        if (is_resource($this->lock)) {
+            flock($this->lock, LOCK_UN);
+            fclose($this->lock);
+
+            $this->lock = null;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Acquires the lock.
+     *
+     * @param bool $blocker if the lock is acquire by other process before,
+     *                      and we call acquire as blocker, this call blocks
+     *                      after previous acquire release the lock
+     *
+     * @return bool
+     */
+    public function acquire(bool $blocker = false): bool
     {
         if (!is_resource($this->lock)) {
             return false;
@@ -64,11 +93,11 @@ class FSLock implements FSLockInterface
     }
 
     /**
-     * Releases the lock
+     * Releases the lock.
      *
-     * @return boolean
+     * @return bool
      */
-    public function release()
+    public function release(): bool
     {
         if (!is_resource($this->lock)) {
             return true;
@@ -78,34 +107,22 @@ class FSLock implements FSLockInterface
     }
 
     /**
-     * Destroy the lock manually
-     */
-    public function destroy()
-    {
-        if (is_resource($this->lock)) {
-            flock($this->lock, LOCK_UN);
-            fclose($this->lock);
-            $this->lock = null;
-        }
-    }
-
-    /**
-     * Returns the lock id
+     * Returns the lock id.
      *
      * @return string
      */
-    public function id()
+    public function id(): string
     {
         return $this->lockID;
     }
 
     /**
-     * Returns the lock path
+     * Returns the lock path.
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
-        return sprintf("%s/%s.fslock", $this->lockBucket, $this->lockID);
+        return sprintf('%s/%s.fslock', $this->lockBucket, $this->lockID);
     }
 }

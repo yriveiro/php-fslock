@@ -5,7 +5,7 @@ namespace FSLock\tests;
 use Exception;
 use FSLock\FSLock;
 use ReflectionProperty;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 class FSLockTest extends TestCase
 {
