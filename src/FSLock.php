@@ -15,7 +15,7 @@ class FSLock implements FSLockInterface
     /**
      * The resource linked to current lock.
      *
-     * @var resource | null
+     * @var resource|null
      */
     protected $lock;
 
@@ -50,19 +50,9 @@ class FSLock implements FSLockInterface
     }
 
     /**
-     * Destructor method. Internally calls FSLock::destroy().
+     * Clean up.
      */
     public function __destruct()
-    {
-        $this->destroy();
-    }
-
-    /**
-     * Destroy the lock manually.
-     *
-     * @return FSLock
-     */
-    public function destroy(): FSLock
     {
         if (is_resource($this->lock)) {
             flock($this->lock, LOCK_UN);
@@ -70,8 +60,6 @@ class FSLock implements FSLockInterface
 
             $this->lock = null;
         }
-
-        return $this;
     }
 
     /**

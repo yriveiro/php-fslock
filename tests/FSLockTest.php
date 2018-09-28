@@ -1,10 +1,8 @@
 <?php
-
 namespace FSLock\tests;
 
-use Exception;
-use FSLock\FSLock;
 use ReflectionProperty;
+use FSLock\FSLock;
 use PHPUnit\Framework\TestCase as TestCase;
 
 class FSLockTest extends TestCase
@@ -16,27 +14,15 @@ class FSLockTest extends TestCase
 
     public function tearDown()
     {
-        @unlink(sprintf("%s/unittest.fslock", $this->lockBucket));
+        @unlink("$this->lockBucket/unittest.fslock");
     }
 
     public function testCreateFSLockInstance()
     {
-        $mutex = new FSLock('unittest');
-
         $this->assertEquals(
-            $this->lockBucket . '/' . 'unittest.fslock',
-            $mutex->getPath()
+            "$this->lockBucket/unittest.fslock",
+            (new FSLock('unittest'))->getPath()
         );
-    }
-
-    public function testDestroyFSLockInstance()
-    {
-        $mutex = new FSLock('unittest');
-
-        $fileLock = $mutex->getPath();
-        $mutex->destroy();
-
-        $this->assertFalse($mutex->acquire());
     }
 
     public function testAcquire()
@@ -55,25 +41,36 @@ class FSLockTest extends TestCase
 
         $this->assertTrue($mutex1->acquire());
         $this->assertFalse($mutex2->acquire());
+
         $mutex1->release();
+
         $this->assertTrue($mutex2->acquire());
     }
 
     public function testGetFSLockID()
     {
-        $mutex = new FSLock('unittest');
-        $this->assertEquals('unittest', $mutex->id());
+        $this->assertEquals('unittest', (new FSLock('unittest'))->id());
     }
 
     public function testReleaseUnlockedFile()
     {
         $mutex = new FSLock('unittest');
-        $mutex->destroy();
 
         $lock = new ReflectionProperty($mutex, 'lock');
         $lock->setAccessible(true);
+        $lock->setValue($mutex, null);
 
-        $this->assertEquals(null, $lock->getValue($mutex));
         $this->assertTrue($mutex->release());
+    }
+
+    public function testAcquireFSLockNoResource()
+    {
+        $mutex = new FSLock('unittest');
+
+        $lock = new ReflectionProperty($mutex, 'lock');
+        $lock->setAccessible(true);
+        $lock->setValue($mutex, null);
+
+        $this->assertFalse($mutex->acquire());
     }
 }
