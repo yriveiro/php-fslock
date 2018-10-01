@@ -1,8 +1,6 @@
 <?php
 namespace FSLock;
 
-use RuntimeException;
-
 class FSLock implements FSLockInterface
 {
     /**
@@ -27,25 +25,22 @@ class FSLock implements FSLockInterface
     protected $lockBucket;
 
     /**
-     * @param string $lockID the id of the lock with want to work, if not exists
-     *                       a new resource is created.
+     * @param string      $lockID the id of the lock with want to work, if not
+     *                            exists a new resource is created
+     * @param string|null $bucket the directory to store the locks
      *
-     * @throws RuntimeException if temporal folder lockBucket is not writable.
+     * @throws RuntimeException if temporal folder lockBucket is not writable
      */
-    public function __construct(string $lockID)
+    public function __construct(string $lockID, $bucket = null)
     {
         $this->lockID = $lockID;
-        $this->lockBucket = sys_get_temp_dir();
+        $this->lockBucket = $bucket ?: sys_get_temp_dir();
         $lockFile = sprintf('%s/%s.fslock', $this->lockBucket, $this->lockID);
 
-        $this->lock = fopen($lockFile, 'c');
+        $this->lock = @fopen($lockFile, 'c');
 
         if ($this->lock === false) {
-            throw new RuntimeException(
-                sprintf(
-                    'System tmp dir: %s is not writable!', sys_get_temp_dir()
-                )
-            );
+            throw new FSLockIOException("$bucket is not writable");
         }
     }
 
@@ -111,6 +106,6 @@ class FSLock implements FSLockInterface
      */
     public function getPath(): string
     {
-        return sprintf('%s/%s.fslock', $this->lockBucket, $this->lockID);
+        return "$this->lockBucket/$this->lockID.fslock";
     }
 }

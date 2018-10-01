@@ -3,6 +3,7 @@ namespace FSLock\tests;
 
 use ReflectionProperty;
 use FSLock\FSLock;
+use FSLock\FSLockIOException;
 use PHPUnit\Framework\TestCase as TestCase;
 
 class FSLockTest extends TestCase
@@ -23,6 +24,19 @@ class FSLockTest extends TestCase
             "$this->lockBucket/unittest.fslock",
             (new FSLock('unittest'))->getPath()
         );
+    }
+
+    public function testBucketWorksInSystemTempDir()
+    {
+        $this->assertInstanceOf('FSLock\\FSLock', new FSLock('unittest'));
+    }
+
+    /**
+     * @expectedException \FSLock\FSLockIOException
+     */
+    public function testBucketIsNotWritable()
+    {
+        new FSLock('unittest', '/foo');
     }
 
     public function testAcquire()
