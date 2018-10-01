@@ -6,6 +6,8 @@
 
 A simple lock implementation using flock.
 
+*NOTE:* to use php-backoff with PHP 5.x please use the lastet release of branch 2.x
+
 # Usage
 
 ```PHP
@@ -21,11 +23,16 @@ if ($lock->acquire()) {
 }
 ```
 
+If you want to use a custom path to store the locks, you should instantiate the FSLock like that
+
+```PHP
+$lock = new FSLock('test', '/tmp/');
+```
+
 # API
 
 - `acquire`: Acquires the lock, returns _true_ if the operation was successful otherwise the return is _false_.
 - `release`: Releases the lock, returns _true_ if the operation was successful otherwise the return is _false_.
-- `destroy`: allows manually destruction of the lock. Internally release the lock and perform a cleanup operation. It's the same process used by the `__destruct` magic method.
 - `id`: returns the lock id.
 - `getPath`: returns the lock path
 
@@ -34,7 +41,7 @@ if ($lock->acquire()) {
 The recommended way to install this package is through [Composer](http://getcomposer.org/download/).
 
 ```sh
-composer require yriveiro/php-fslock:2.0.0
+composer require yriveiro/php-fslock:3.0.0
 ```
 
 # Tests
