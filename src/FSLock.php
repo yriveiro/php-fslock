@@ -29,7 +29,7 @@ class FSLock implements FSLockInterface
      *                            exists a new resource is created
      * @param string|null $bucket the directory to store the locks
      *
-     * @throws RuntimeException if temporal folder lockBucket is not writable
+     * @throws FSLockIOException if temporal folder lockBucket is not writable
      */
     public function __construct(string $lockID, $bucket = null)
     {
