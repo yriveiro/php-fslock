@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.1 - 2020-01-05
+
+- Configure Travis to run tests with new versions of PHP.
+
 ## 3.0.0 - 2018-10-01
 
 - Bump minimal PHP version to 7.x.
